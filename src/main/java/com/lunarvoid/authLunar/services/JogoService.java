@@ -25,7 +25,7 @@ public class JogoService {
     }
 
     public JogoResponseDTO findById(Long id){
-        return JogoResponseDTO.convertJogo(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado" + id)));
+        return JogoResponseDTO.convertJogo(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Jogo não encontrado" + id)));
     }
 
     public JogoResponseDTO insert(JogoRequestDTO obj){
@@ -33,7 +33,7 @@ public class JogoService {
     }
 
     public JogoResponseDTO update(Long id, JogoRequestDTO obj){
-        Jogo entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado" + id));
+        Jogo entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Jogo não encontrado" + id));
         obj.updateJogo(entity);
         return JogoResponseDTO.convertJogo(entity);
     }
@@ -42,7 +42,7 @@ public class JogoService {
         try{
             repository.deleteById(id);
         }catch(EmptyResultDataAccessException e){
-            throw new ResourceNotFoundException("Falha ao deletar o recurso id:" + id);
+            throw new ResourceNotFoundException("Falha ao deletar o Jogo id:" + id);
         }catch(DataIntegrityViolationException e){
             throw new DatabaseException(e.getMessage());
         }
