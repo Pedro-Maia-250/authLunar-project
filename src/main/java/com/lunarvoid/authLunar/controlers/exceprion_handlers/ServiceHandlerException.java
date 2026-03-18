@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.lunarvoid.authLunar.exceptions.ExceptionResponseDTO;
 import com.lunarvoid.authLunar.services.exceptions.DatabaseException;
+import com.lunarvoid.authLunar.services.exceptions.LoguinExeption;
 import com.lunarvoid.authLunar.services.exceptions.ResourceNotFoundException;
+import com.lunarvoid.authLunar.services.exceptions.TokenException;
 import com.lunarvoid.authLunar.services.exceptions.UserException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,6 +43,20 @@ public class ServiceHandlerException {
     public ResponseEntity<ExceptionResponseDTO> usernameIndisponivel(UserException exception, HttpServletRequest request){
         HttpStatus status = HttpStatus.CONFLICT;
         ExceptionResponseDTO response = new ExceptionResponseDTO(status.value(), "User conflicted error", exception.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(response);
+    }
+
+    @ExceptionHandler(TokenException.class)
+    public ResponseEntity<ExceptionResponseDTO> tokenIndisponivel(TokenException exception, HttpServletRequest request){
+        HttpStatus status = HttpStatus.CONFLICT;
+        ExceptionResponseDTO response = new ExceptionResponseDTO(status.value(), "Token conflicted error", exception.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(response);
+    }
+
+    @ExceptionHandler(LoguinExeption.class)
+    public ResponseEntity<ExceptionResponseDTO> loguinError(LoguinExeption exception, HttpServletRequest request){
+        HttpStatus status = HttpStatus.LOCKED;
+        ExceptionResponseDTO response = new ExceptionResponseDTO(status.value(), "Not logued", exception.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(response);
     }
 

@@ -16,6 +16,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class User implements UserDetails {
@@ -30,7 +31,7 @@ public class User implements UserDetails {
     @NotBlank
     private String password;
 
-    @NotBlank
+    @NotNull
     private Integer rule;
 
     protected User(){}
@@ -66,11 +67,11 @@ public class User implements UserDetails {
         List<SimpleGrantedAuthority> rules = new ArrayList<>();
         switch (getRule()){
             case UserRules.ALTO:
-                rules.add(new SimpleGrantedAuthority("RULE_" + UserRules.ALTO.name()));
+                rules.add(new SimpleGrantedAuthority("ROLE_" + UserRules.ALTO.name()));
             case UserRules.MEDIO:
-                rules.add(new SimpleGrantedAuthority("RULE_" + UserRules.MEDIO.name()));
+                rules.add(new SimpleGrantedAuthority("ROLE_" + UserRules.MEDIO.name()));
             case UserRules.BAIXO:
-                rules.add(new SimpleGrantedAuthority("RULE_" + UserRules.BAIXO.name()));
+                rules.add(new SimpleGrantedAuthority("ROLE_" + UserRules.BAIXO.name()));
             break;
         }
         return rules;

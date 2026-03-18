@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "jogo_tb")
@@ -24,7 +25,7 @@ public class Jogo {
 
     
     @Column(nullable = false)
-    @NotBlank
+    @NotNull
     private BigDecimal price;
 
     protected Jogo(){}

@@ -38,9 +38,18 @@ public class UserService implements UserDetailsService {
     }
 
     public UserResponseDTO insert(UserRequestDTO obj){
-        if(repository.findByUsername(obj.username()).isPresent()){
+        if(!repository.findByUsername(obj.username()).isPresent()){
             String senha = encoder.encode(obj.password());
             return UserResponseDTO.convertUser(repository.save(new User(obj.username(), senha, UserRules.BAIXO)));
+        }else{
+            throw new UserException("Nome de usuario indisponivel");
+        }
+    }
+
+    public UserResponseDTO insertWithRule(UserRequestDTO obj, UserRules Rule){
+        if(!repository.findByUsername(obj.username()).isPresent()){
+            String senha = encoder.encode(obj.password());
+            return UserResponseDTO.convertUser(repository.save(new User(obj.username(), senha, Rule)));
         }else{
             throw new UserException("Nome de usuario indisponivel");
         }
